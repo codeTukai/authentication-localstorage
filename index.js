@@ -20,6 +20,7 @@ function generateToken (){
 
 
 
+
 app.post("/sign-up", function(req, res){
   const {username, password} = req.body
 
@@ -31,7 +32,10 @@ app.post("/sign-up", function(req, res){
         success: true,
         message: "ok sign up"
     })
+    console.log(users);
 })
+
+
 
 app.post("/sign-in", function(req, res){
 
@@ -39,7 +43,7 @@ app.post("/sign-in", function(req, res){
     
 
     const user = users.find((user)=>
-         response = user.username == username && user.password == password
+        user.username == username && user.password == password
     )
 
     
@@ -61,10 +65,14 @@ app.post("/sign-in", function(req, res){
     });
 
 
+    console.log(users);
 
 })
 
+
+
 app.listen(3000, ()=>
+
 {
     console.log("port running on 3000");
     
