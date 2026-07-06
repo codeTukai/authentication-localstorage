@@ -69,7 +69,73 @@ app.post("/sign-in", function(req, res){
 
 })
 
+// app.get("/me", function(req, res){
+//     const token = req.headers.token;
 
+//     console.log(token);
+    
+
+//     // let user = users.find(user=> user.token === token)
+
+//     // console.log(user);
+    
+
+//     let userFound = null;
+
+//     for (let i = 0; i < users.length; i++) {
+//         if(users[i].token == token){
+//             userFound = users[i]
+//         }
+        
+//     }
+//     console.log(userFound);
+    
+
+//     if (userFound) {
+//         res.json({
+//             username : userFound.username
+//         })
+//     } else {
+//         res.status(404).json({
+//             message: "unauthorize access"
+            
+//         })
+//     }
+// })
+
+app.get("/me", function (req, res) {
+
+    const token = req.headers.token;
+
+    console.log(token);
+
+    // let userFound = null;
+
+    // for (let i = 0; i < users.length; i++) {
+
+    //     if (users[i].token === token) {
+    //         userFound = users[i];
+    //         break;
+    //     }
+
+    // }
+
+    const user = users.find(user => user.token === token)
+
+    // console.log(userFound);
+    console.log(user);
+
+    if (user) {
+        return res.status(200).json({
+            username: user.username
+        });
+    }
+
+    return res.status(401).json({
+        message: "Unauthorized access"
+    });
+
+});
 
 app.listen(3000, ()=>
 
