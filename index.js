@@ -1,22 +1,25 @@
 import express from 'express'
+import jwt from 'jsonwebtoken'
 
 const app = express()
+
+const JSON_SECRET = "randomtukaighosh"
 app.use(express.json())
 
 const users = [];
 
-function generateToken (){
-    let token = '';
+// function generateToken (){
+//     let token = '';
 
-    const options = ['A', 'B', 'C', 'D', 'E', 'F','G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q','R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z','0', '1','2','3','4','5','6','7','8','9']
+//     const options = ['A', 'B', 'C', 'D', 'E', 'F','G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q','R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z','0', '1','2','3','4','5','6','7','8','9']
 
-    for (let i = 0; i < 36; i++) {
-        token += options[Math.floor(Math.random() * options.length)]
-    }
-     console.log(token);
+//     for (let i = 0; i < 36; i++) {
+//         token += options[Math.floor(Math.random() * options.length)]
+//     }
+//      console.log(token);
 
-    return token
-}
+//     return token
+// }
 
 
 
@@ -54,7 +57,11 @@ app.post("/sign-in", function(req, res){
         });
     }
 
-    const token = generateToken()
+    const token = jwt.sign({
+        username: username
+    },
+    JSON_SECRET
+)
 
     user.token = token
 
@@ -106,8 +113,12 @@ app.post("/sign-in", function(req, res){
 app.get("/me", function (req, res) {
 
     const token = req.headers.token;
+    const decodeToken = jwt.verify(token, JSON_SECRET)
 
-    console.log(token);
+    const username = decodeToken.username
+
+
+
 
     // let userFound = null;
 
@@ -120,7 +131,7 @@ app.get("/me", function (req, res) {
 
     // }
 
-    const user = users.find(user => user.token === token)
+    const user = users.find(user => user.username === username)
 
     // console.log(userFound);
     console.log(user);
