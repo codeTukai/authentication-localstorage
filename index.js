@@ -1,7 +1,15 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
+import cors from 'cors'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express()
+
+app.use(cors())
 
 const JSON_SECRET = "randomtukaighosh"
 app.use(express.json())
@@ -22,6 +30,9 @@ const users = [];
 // }
 
 
+app.get("/", function (req, res){
+    res.sendFile(path.join(__dirname + "/public/index.html"))
+})
 
 
 app.post("/sign-up", function(req, res){

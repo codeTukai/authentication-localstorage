@@ -1,0 +1,45 @@
+
+<html lang="en">
+<head>
+    <title>Authentic</title>
+</head>
+<body>
+
+    <script src="http://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      async function signUp(){
+         const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+       const response =  axios.post("http://localhost:3000/sign-up",{
+            username: username,
+            password: password
+        })
+
+        console.log(response);
+        
+
+        alert("You are signed up")
+        }
+     
+     </script>
+
+    <div>
+        <input id="username" type="text" name="text" placeholder="username" />
+    <input id="password" type="password" name="password" placeholder="password" />
+    <button onclick="signUp()">Sing up</button>
+   
+    </div>
+     <div>
+        <input type="text" name="text" placeholder="username" />
+    <input type="password" name="password" placeholder="password" />
+    <button>Sing in</button>
+
+     </div>
+
+     <p>user information</p>
+     <div>
+        <button onclick="logout()">Logout</button>
+     </div>
+     
+</body>
+</html>
