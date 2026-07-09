@@ -1,45 +1,86 @@
-
 <html lang="en">
-<head>
+  <head>
     <title>Authentic</title>
-</head>
-<body>
-
+  </head>
+  <body>
     <script src="http://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-      async function signUp(){
-         const username = document.getElementById("username").value;
+      async function signUp() {
+        const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
-       const response =  axios.post("http://localhost:3000/sign-up",{
-            username: username,
-            password: password
-        })
+        const response = await axios.post("http://localhost:3000/sign-up", {
+          username: username,
+          password: password,
+          
+        });
 
         console.log(response);
-        
 
-        alert("You are signed up")
-        }
-     
-     </script>
+        alert("You are signed up");
+      }
+
+      async function signIn() {
+
+        const username = document.getElementById("signin-username").value;
+        const password = document.getElementById("signin-password").value;
+
+         const response =await axios.post("http://localhost:3000/sign-in", {
+          username: username,
+          password: password,
+          
+        });
+
+    console.log("Response.data:", response.data);
+    console.log("Token:", response.data.token);
+
+       localStorage.setItem("token", response.data.token)
+       
+
+        alert("Signed in")
+        
+      }
+
+      async function getInformation() {
+        
+        const response = await axios.get("http://localhost:3000/me", {
+          headers: {
+        token: localStorage.getItem("token")
+      }
+          
+        });
+
+        document.getElementById("information").innerHTML = "username: " + response.data.username 
+      }
+
+      getInformation()
+    </script>
 
     <div>
-        <input id="username" type="text" name="text" placeholder="username" />
-    <input id="password" type="password" name="password" placeholder="password" />
-    <button onclick="signUp()">Sing up</button>
-   
+      <input id="username" type="text" name="text" placeholder="username" />
+      <input
+        id="password"
+        type="password"
+        name="password"
+        placeholder="password"
+      />
+      <button onclick="signUp()">Sing up</button>
     </div>
-     <div>
-        <input type="text" name="text" placeholder="username" />
-    <input type="password" name="password" placeholder="password" />
-    <button>Sing in</button>
+    <div>
+      <input id="signin-username" type="text" name="text" placeholder="username" />
+      <input
+        id="signin-password"
+        type="password"
+        name="password"
+        placeholder="password"
+      />
+      <button onclick="signIn()">Sing in</button>
+    </div>
 
-     </div>
-
-     <p>user information</p>
-     <div>
-        <button onclick="logout()">Logout</button>
-     </div>
-     
-</body>
+ <div id="information">
+      user information
+ </div>
+    <div>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </body>
 </html>
